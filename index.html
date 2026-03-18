@@ -74,8 +74,16 @@ body{font-family:"Nunito",sans-serif;background:#f0f4f8;color:#1a2e4a;font-size:
 .span2{grid-column:1/-1}
 .ccard{background:#fff;border-radius:14px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .ccard-title{font-size:.82rem;font-weight:900;color:#1a2e4a;margin-bottom:2px}
-.ccard-sub{font-size:.7rem;color:#94a3b8;margin-bottom:12px}
+.ccard-sub{font-size:.7rem;color:#94a3b8;margin-bottom:10px}
 .ccard canvas{max-height:200px;width:100%!important}
+/* Fixed-height chart wrappers */
+.ch{position:relative;width:100%}
+.ch-160{height:160px}
+.ch-180{height:180px}
+.ch-200{height:200px}
+.ch-220{height:220px}
+.ch-260{height:260px}
+.ch-300{height:300px}
 
 /* FACTS */
 .fact-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:20px}
@@ -85,8 +93,38 @@ body{font-family:"Nunito",sans-serif;background:#f0f4f8;color:#1a2e4a;font-size:
 .fact-h{font-size:.8rem;font-weight:900;margin-bottom:4px}
 .fact-p{font-size:.73rem;line-height:1.6;color:#475569}
 
-/* RANKING */
-.rank-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+/* RANKING GRID */
+.rank-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.rank-grid{grid-template-columns:1fr}}
+
+/* DONUT SECTION */
+.donut-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:640px){.donut-row{grid-template-columns:1fr}}
+.donut-card{}
+.donut-wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:8px}
+.donut-chart-box{position:relative;width:150px;height:150px;flex-shrink:0}
+.donut-chart-box canvas{position:absolute;top:0;left:0;width:150px!important;height:150px!important}
+.donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;line-height:1.2}
+.donut-center-num{font-size:1rem;font-weight:900;color:#1a2e4a}
+.donut-center-lbl{font-size:.62rem;font-weight:700;color:#94a3b8;margin-top:2px}
+.donut-legend{flex:1;min-width:120px}
+.dl-item{display:flex;align-items:center;gap:8px;margin-bottom:10px;cursor:default}
+.dl-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.dl-info{}
+.dl-name{font-size:.75rem;font-weight:800;color:#1a2e4a;line-height:1}
+.dl-val{font-size:.7rem;color:#64748b;margin-top:1px}
+.dl-pct{font-size:.75rem;font-weight:900;margin-left:auto;white-space:nowrap}
+
+/* PROD KPI */
+.prod-kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:20px}
+.prod-kpi{background:#fff;border-radius:12px;padding:14px 16px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:4px solid #e2e8f0;display:flex;align-items:center;gap:12px}
+.prod-kpi-icon{font-size:1.8rem;flex-shrink:0}
+.prod-kpi-val{font-size:1.3rem;font-weight:900;color:#1a2e4a;line-height:1}
+.prod-kpi-lbl{font-size:.65rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-top:3px}
+
+/* RANKING GRID */
+.rank-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.rank-grid{grid-template-columns:1fr}}
 .rank-item{display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:10px 14px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 .rank-no{font-size:.9rem;font-weight:900;color:#94a3b8;width:22px;text-align:center;flex-shrink:0}
 .rank-name{font-weight:800;font-size:.82rem;flex:1;min-width:60px}
@@ -162,22 +200,22 @@ body{font-family:"Nunito",sans-serif;background:#f0f4f8;color:#1a2e4a;font-size:
         <div class="ccard">
           <div class="ccard-title">Sapi Potong</div>
           <div class="ccard-sub">Total seluruh Kalimantan Barat (ekor)</div>
-          <canvas id="cSapi"></canvas>
+          <div class="ch ch-180"><canvas id="cSapi"></canvas></div>
         </div>
         <div class="ccard">
           <div class="ccard-title">Ayam Ras Pedaging</div>
           <div class="ccard-sub">Total Kalimantan Barat (juta ekor)</div>
-          <canvas id="cAyam"></canvas>
+          <div class="ch ch-180"><canvas id="cAyam"></canvas></div>
         </div>
         <div class="ccard">
           <div class="ccard-title">Kambing &amp; Babi</div>
           <div class="ccard-sub">Total ekor per tahun</div>
-          <canvas id="cKB"></canvas>
+          <div class="ch ch-180"><canvas id="cKB"></canvas></div>
         </div>
         <div class="ccard">
           <div class="ccard-title">Itik</div>
           <div class="ccard-sub">Terus tumbuh setiap tahun (ekor)</div>
-          <canvas id="cItik"></canvas>
+          <div class="ch ch-180"><canvas id="cItik"></canvas></div>
         </div>
       </div>
     </div>
@@ -185,49 +223,109 @@ body{font-family:"Nunito",sans-serif;background:#f0f4f8;color:#1a2e4a;font-size:
 
   <!-- HEWAN -->
   <div class="panel" id="panel-hewan">
-    <div class="info-box">&#8505;&#65039; Data menunjukkan jumlah hewan ternak yang tercatat di seluruh 14 kabupaten/kota Kalimantan Barat.</div>
-    <div class="sec">
-      <div class="sec-title">Sapi Potong &mdash; Terbesar di Mana?</div>
-      <div class="rank-list" id="rankSapi"></div>
-    </div>
-    <div class="sec">
-      <div class="sec-title">Ayam Pedaging &mdash; Terbesar di Mana?</div>
-      <div class="rank-list" id="rankAyam"></div>
-    </div>
-    <div class="chart-grid">
-      <div class="ccard">
-        <div class="ccard-title">Perbandingan Ternak Besar (2025*)</div>
-        <div class="ccard-sub">Sapi, kambing, dan babi</div>
-        <canvas id="cDonut1"></canvas>
+    <div class="info-box">&#8505;&#65039; Data populasi hewan ternak yang tercatat di 14 kabupaten/kota Kalimantan Barat. Klik nama kabupaten untuk detail.</div>
+
+    <!-- Donut + legend side by side -->
+    <div class="donut-section">
+      <div class="donut-row">
+        <div class="ccard donut-card">
+          <div class="ccard-title">&#127862; Komposisi Ternak Besar &amp; Kecil</div>
+          <div class="ccard-sub" id="donut1year">Tahun 2025* &mdash; Total seluruh Kalimantan Barat</div>
+          <div class="donut-wrap">
+            <div class="donut-chart-box">
+              <canvas id="cDonut1"></canvas>
+              <div class="donut-center" id="donut1center"></div>
+            </div>
+            <div class="donut-legend" id="donut1legend"></div>
+          </div>
+        </div>
+        <div class="ccard donut-card">
+          <div class="ccard-title">&#128020; Komposisi Unggas</div>
+          <div class="ccard-sub" id="donut2year">Tahun 2025* &mdash; Total seluruh Kalimantan Barat</div>
+          <div class="donut-wrap">
+            <div class="donut-chart-box">
+              <canvas id="cDonut2"></canvas>
+              <div class="donut-center" id="donut2center"></div>
+            </div>
+            <div class="donut-legend" id="donut2legend"></div>
+          </div>
+        </div>
       </div>
-      <div class="ccard">
-        <div class="ccard-title">Perbandingan Unggas (2025*)</div>
-        <div class="ccard-sub">Ayam pedaging, buras, dan itik</div>
-        <canvas id="cDonut2"></canvas>
+    </div>
+
+    <!-- Rankings -->
+    <div class="rank-grid">
+      <div class="sec">
+        <div class="sec-title">&#127868; Sapi Potong &mdash; Peringkat Kabupaten</div>
+        <div class="rank-list" id="rankSapi"></div>
+      </div>
+      <div class="sec">
+        <div class="sec-title">&#127860; Ayam Pedaging &mdash; Peringkat Kabupaten</div>
+        <div class="rank-list" id="rankAyam"></div>
+      </div>
+      <div class="sec">
+        <div class="sec-title">&#129414; Itik &mdash; Peringkat Kabupaten</div>
+        <div class="rank-list" id="rankItik2"></div>
+      </div>
+      <div class="sec">
+        <div class="sec-title">&#128023; Kambing &mdash; Peringkat Kabupaten</div>
+        <div class="rank-list" id="rankKambing2"></div>
       </div>
     </div>
   </div>
 
   <!-- PRODUKSI -->
   <div class="panel" id="panel-produksi">
-    <div class="info-box">&#8505;&#65039; Produksi daging dihitung dari hewan yang dipotong setiap tahun. Kalbar menghasilkan ribuan ton daging untuk memenuhi kebutuhan pangan masyarakat.</div>
+    <div class="info-box">&#8505;&#65039; Produksi daging dihitung dari berat karkas hewan yang dipotong setiap tahun. Data telur berdasarkan estimasi produksi tahunan.</div>
+
+    <!-- KPI Produksi -->
+    <div class="prod-kpi-row" id="prodKpiRow"></div>
+
+    <!-- Daging -->
     <div class="sec">
-      <div class="sec-title">Produksi Daging (Ton per Tahun)</div>
+      <div class="sec-title">&#129385; Produksi Daging (Ton)</div>
       <div class="chart-grid">
+        <div class="ccard">
+          <div class="ccard-title">Daging Sapi (Ton)</div>
+          <div class="ccard-sub">Total produksi daging sapi per tahun</div>
+          <div class="ch ch-180"><canvas id="cProdSapi"></canvas></div>
+        </div>
+        <div class="ccard">
+          <div class="ccard-title">Daging Ayam Ras Pedaging (Juta Kg)</div>
+          <div class="ccard-sub">Total produksi daging ayam pedaging per tahun</div>
+          <div class="ch ch-180"><canvas id="cProdAyam"></canvas></div>
+        </div>
+        <div class="ccard">
+          <div class="ccard-title">Semua Jenis Ternak &mdash; Daging (Ton)</div>
+          <div class="ccard-sub">Sapi, babi, kambing, ayam kampung per tahun</div>
+          <div class="ch ch-200"><canvas id="cProdSemua"></canvas></div>
+        </div>
+        <div class="ccard">
+          <div class="ccard-title">Pangsa Produksi Daging (2025*)</div>
+          <div class="ccard-sub">Kontribusi masing-masing komoditas</div>
+          <div class="ch ch-200"><canvas id="cProdPie"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Telur -->
+    <div class="sec">
+      <div class="sec-title">&#129370; Produksi Telur (Ton)</div>
+      <div class="chart-grid">
+        <div class="ccard">
+          <div class="ccard-title">Telur Ayam Ras Petelur (Ton)</div>
+          <div class="ccard-sub">Sumber telur terbesar di Kalimantan Barat</div>
+          <div class="ch ch-180"><canvas id="cTelurLayer"></canvas></div>
+        </div>
+        <div class="ccard">
+          <div class="ccard-title">Perbandingan Semua Jenis Telur (Ton)</div>
+          <div class="ccard-sub">Ayam petelur, itik, dan ayam kampung</div>
+          <div class="ch ch-180"><canvas id="cTelur"></canvas></div>
+        </div>
         <div class="ccard span2">
-          <div class="ccard-title">Berapa ton daging yang dihasilkan?</div>
-          <div class="ccard-sub">Perbandingan sapi, babi, dan kambing per tahun</div>
-          <canvas id="cProdBar" style="max-height:240px"></canvas>
-        </div>
-        <div class="ccard">
-          <div class="ccard-title">Dari mana daging terbanyak? (2025*)</div>
-          <div class="ccard-sub">Dalam persentase dari total produksi</div>
-          <canvas id="cProdPie"></canvas>
-        </div>
-        <div class="ccard">
-          <div class="ccard-title">Produksi Telur (Ton)</div>
-          <div class="ccard-sub">Dari ayam petelur, itik, dan ayam kampung</div>
-          <canvas id="cTelur"></canvas>
+          <div class="ccard-title">Pangsa Produksi Telur (2025*)</div>
+          <div class="ccard-sub">Kontribusi masing-masing sumber telur — hover untuk detail</div>
+          <div class="ch ch-200"><canvas id="cTelurPie"></canvas></div>
         </div>
       </div>
     </div>
@@ -247,7 +345,7 @@ body{font-family:"Nunito",sans-serif;background:#f0f4f8;color:#1a2e4a;font-size:
     <div class="ccard">
       <div class="ccard-title">Sapi Potong Semua Kabupaten &mdash; Perbandingan 3 Tahun</div>
       <div class="ccard-sub">Ketapang melonjak sangat pesat pada 2024</div>
-      <canvas id="cSapiKab" style="max-height:280px"></canvas>
+      <div class="ch ch-300"><canvas id="cSapiKab"></canvas></div>
     </div>
   </div>
 
@@ -285,6 +383,9 @@ var PROD = {
   sapiTon:{2023:5849.9,2024:4153.6,2025:4374.8},
   babiTon:{2023:4659.5,2024:5421.0,2025:5421.0},
   kambingTon:{2023:499.8,2024:361.7,2025:430.7},
+  ayamPedKg:{2023:121400000,2024:115200000,2025:118600000},
+  ayamLayerTon:{2023:312.4,2024:298.6,2025:321.5},
+  ayamBurasTon:{2023:4040,2024:4320,2025:4720},
   telurLayer:{2023:44000,2024:42000,2025:46000},
   telurItik:{2023:3400,2024:3600,2025:4100},
   telurBuras:{2023:2200,2024:2500,2025:2800}
@@ -312,9 +413,10 @@ function isLatest(y) { return y===YEARS[YEARS.length-1]; }
 var CH = {};
 var COPTS = {
   responsive:true,
-  plugins:{legend:{labels:{font:{size:11,family:"Nunito"},padding:10,color:"#475569"}}},
+  maintainAspectRatio:false,
+  plugins:{legend:{labels:{font:{size:11,family:"Nunito"},padding:10,color:"#475569",boxWidth:12}}},
   scales:{
-    x:{ticks:{font:{size:10},color:"#64748b"},grid:{color:"#f1f5f9"}},
+    x:{ticks:{font:{size:10},color:"#64748b",maxRotation:30},grid:{color:"#f1f5f9"}},
     y:{ticks:{font:{size:10},color:"#64748b"},grid:{color:"#f1f5f9"}}
   }
 };
@@ -447,22 +549,138 @@ function render() {
   mkChart("cKB",{type:"bar",data:{labels:yrs,datasets:[{label:"Kambing",data:yrs.map(function(y){return sum(POP.kambing[y]);}),backgroundColor:"#16a34a99",borderRadius:6,borderSkipped:false},{label:"Babi",data:yrs.map(function(y){return sum(POP.babi[y]);}),backgroundColor:"#dc262699",borderRadius:6,borderSkipped:false}]},options:COPTS});
   mkChart("cItik",{type:"line",data:{labels:yrs,datasets:[{label:"Itik (ekor)",data:yrs.map(function(y){return sum(POP.itik[y]);}),borderColor:"#0ea5e9",backgroundColor:"#e0f2fe44",fill:true,tension:.4,pointRadius:5,pointBackgroundColor:"#0ea5e9"}]},options:COPTS});
 
-  /* Donut charts */
-  var donutOpts={plugins:{legend:{labels:{font:{size:11,family:"Nunito"},padding:12,color:"#475569"}}},cutout:"60%"};
-  mkChart("cDonut1",{type:"doughnut",data:{labels:["Sapi Potong","Kambing","Babi"],datasets:[{data:[sum(POP.sapi[lat]),sum(POP.kambing[lat]),sum(POP.babi[lat])],backgroundColor:["#2563eb","#16a34a","#dc2626"],borderWidth:3,borderColor:"#fff",hoverOffset:8}]},options:donutOpts});
-  mkChart("cDonut2",{type:"doughnut",data:{labels:["Ayam Pedaging","Ayam Kampung","Itik"],datasets:[{data:[sum(POP.ayamPed[lat]),sum(POP.ayamBuras[lat]),sum(POP.itik[lat])],backgroundColor:["#f59e0b","#16a34a","#0ea5e9"],borderWidth:3,borderColor:"#fff",hoverOffset:8}]},options:donutOpts});
+  /* Donut charts with % labels */
+  var lat=latYr();
+  var d1vals=[sum(POP.sapi[lat]),sum(POP.kambing[lat]),sum(POP.babi[lat])];
+  var d1lbl=["Sapi Potong","Kambing","Babi"];
+  var d1col=["#2563eb","#16a34a","#dc2626"];
+  var d2vals=[sum(POP.ayamPed[lat]),sum(POP.ayamBuras[lat]),sum(POP.itik[lat])];
+  var d2lbl=["Ayam Pedaging","Ayam Kampung","Itik"];
+  var d2col=["#f59e0b","#16a34a","#0ea5e9"];
 
-  /* Rankings */
+  function makeDonutOpts(vals,centerLbl) {
+    var total=0; for(var i=0;i<vals.length;i++) total+=vals[i];
+    return {
+      responsive:true,
+      maintainAspectRatio:false,
+      cutout:"62%",
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:function(ctx){
+          var v=ctx.parsed; var p=(v/total*100).toFixed(1);
+          return " "+fmtShort(v)+" ekor ("+p+"%)";
+        }}}
+      }
+    };
+  }
+
+  function buildDonutLegend(elId,labels,colors,vals) {
+    var total=0; for(var i=0;i<vals.length;i++) total+=vals[i];
+    var el=document.getElementById(elId); if(!el) return;
+    var html="";
+    for(var i=0;i<labels.length;i++) {
+      var pct=(vals[i]/total*100).toFixed(1);
+      html+="<div class='dl-item'>";
+      html+="<div class='dl-dot' style='background:"+colors[i]+"'></div>";
+      html+="<div class='dl-info'><div class='dl-name'>"+labels[i]+"</div>";
+      html+="<div class='dl-val'>"+fmtShort(vals[i])+" ekor</div></div>";
+      html+="<div class='dl-pct' style='color:"+colors[i]+"'>"+pct+"%</div>";
+      html+="</div>";
+    }
+    el.innerHTML=html;
+  }
+
+  function buildDonutCenter(elId,vals,lbl) {
+    var el=document.getElementById(elId); if(!el) return;
+    var total=0; for(var i=0;i<vals.length;i++) total+=vals[i];
+    el.innerHTML="<div class='donut-center-num'>"+fmtShort(total)+"</div><div class='donut-center-lbl'>"+lbl+"</div>";
+  }
+
+  mkChart("cDonut1",{type:"doughnut",data:{labels:d1lbl,datasets:[{data:d1vals,backgroundColor:d1col,borderWidth:3,borderColor:"#fff",hoverOffset:8}]},options:makeDonutOpts(d1vals,"ternak")});
+  mkChart("cDonut2",{type:"doughnut",data:{labels:d2lbl,datasets:[{data:d2vals,backgroundColor:d2col,borderWidth:3,borderColor:"#fff",hoverOffset:8}]},options:makeDonutOpts(d2vals,"unggas")});
+  buildDonutLegend("donut1legend",d1lbl,d1col,d1vals);
+  buildDonutLegend("donut2legend",d2lbl,d2col,d2vals);
+  buildDonutCenter("donut1center",d1vals,"ekor");
+  buildDonutCenter("donut2center",d2vals,"ekor");
+  document.getElementById("donut1year").textContent="Tahun "+lat+(isLatest(lat)?"*":"")+" \u2014 Total seluruh Kalimantan Barat";
+  document.getElementById("donut2year").textContent="Tahun "+lat+(isLatest(lat)?"*":"")+" \u2014 Total seluruh Kalimantan Barat";
+
+  /* Rankings hewan */
   renderRank("rankSapi", POP.sapi[lat]||[], "#2563eb", "ekor", 8);
   renderRank("rankAyam", POP.ayamPed[lat]||[], "#f59e0b", "ekor", 8);
+  renderRank("rankItik2", POP.itik[lat]||[], "#0ea5e9", "ekor", 8);
+  renderRank("rankKambing2", POP.kambing[lat]||[], "#16a34a", "ekor", 8);
   renderRank("rankItik", POP.itik[lat]||[], "#0ea5e9", "ekor", 8);
   renderRank("rankBabi", POP.babi[lat]||[], "#dc2626", "ekor", 8);
 
-  /* Produksi */
-  mkChart("cProdBar",{type:"bar",data:{labels:yrs,datasets:[{label:"Sapi (ton)",data:yrs.map(function(y){return PROD.sapiTon[y]||0;}),backgroundColor:"#2563ebaa",borderRadius:6,borderSkipped:false},{label:"Babi (ton)",data:yrs.map(function(y){return PROD.babiTon[y]||0;}),backgroundColor:"#dc2626aa",borderRadius:6,borderSkipped:false},{label:"Kambing (ton)",data:yrs.map(function(y){return PROD.kambingTon[y]||0;}),backgroundColor:"#16a34aaa",borderRadius:6,borderSkipped:false}]},options:COPTS});
-  var pieOpts={plugins:{legend:{labels:{font:{size:11,family:"Nunito"},padding:12,color:"#475569"}}}};
-  mkChart("cProdPie",{type:"pie",data:{labels:["Sapi","Babi","Kambing"],datasets:[{data:[PROD.sapiTon[lat],PROD.babiTon[lat],PROD.kambingTon[lat]],backgroundColor:["#2563eb","#dc2626","#16a34a"],borderWidth:3,borderColor:"#fff",hoverOffset:8}]},options:pieOpts});
-  mkChart("cTelur",{type:"bar",data:{labels:yrs,datasets:[{label:"Ayam Petelur (ton)",data:yrs.map(function(y){return PROD.telurLayer[y]||0;}),backgroundColor:"#f59e0baa",borderRadius:6,borderSkipped:false},{label:"Itik (ton)",data:yrs.map(function(y){return PROD.telurItik[y]||0;}),backgroundColor:"#0ea5e9aa",borderRadius:6,borderSkipped:false},{label:"Ayam Kampung (ton)",data:yrs.map(function(y){return PROD.telurBuras[y]||0;}),backgroundColor:"#16a34aaa",borderRadius:6,borderSkipped:false}]},options:COPTS});
+  /* Produksi KPI cards */
+  var prodKpis=[
+    {icon:"&#129385;",col:"#2563eb",lbl:"Daging Sapi (ton)",val:fmtNum(PROD.sapiTon[lat]||0,1)},
+    {icon:"&#128020;",col:"#f59e0b",lbl:"Daging Ayam Pedaging (juta kg)",val:fmtNum((PROD.ayamPedKg[lat]||0)/1000000,1)},
+    {icon:"&#128020;",col:"#a16207",lbl:"Daging Ayam Petelur (ton)",val:fmtNum(PROD.ayamLayerTon[lat]||0,1)},
+    {icon:"&#129370;",col:"#16a34a",lbl:"Telur Ayam Ras Petelur (ton)",val:fmtNum(PROD.telurLayer[lat]||0)},
+    {icon:"&#129385;",col:"#dc2626",lbl:"Daging Babi (ton)",val:fmtNum(PROD.babiTon[lat]||0,1)},
+    {icon:"&#129414;",col:"#0ea5e9",lbl:"Telur Itik (ton)",val:fmtNum(PROD.telurItik[lat]||0)},
+  ];
+  var pkHtml="";
+  for(var i=0;i<prodKpis.length;i++){
+    var kp=prodKpis[i];
+    pkHtml+="<div class='prod-kpi' style='border-left-color:"+kp.col+"'>";
+    pkHtml+="<div class='prod-kpi-icon'>"+kp.icon+"</div>";
+    pkHtml+="<div><div class='prod-kpi-val' style='color:"+kp.col+"'>"+kp.val+"</div>";
+    pkHtml+="<div class='prod-kpi-lbl'>"+kp.lbl+"</div></div></div>";
+  }
+  document.getElementById("prodKpiRow").innerHTML=pkHtml;
+
+  /* Daging sapi trend */
+  mkChart("cProdSapi",{type:"bar",data:{labels:yrs,datasets:[
+    {label:"Daging Sapi (ton)",data:yrs.map(function(y){return PROD.sapiTon[y]||0;}),backgroundColor:"#2563ebcc",borderRadius:6,borderSkipped:false,barThickness:40}
+  ]},options:COPTS});
+
+  /* Daging ayam pedaging trend */
+  mkChart("cProdAyam",{type:"bar",data:{labels:yrs,datasets:[
+    {label:"Daging Ayam Pedaging (juta kg)",data:yrs.map(function(y){return +((PROD.ayamPedKg[y]||0)/1000000).toFixed(1);}),backgroundColor:"#f59e0bcc",borderRadius:6,borderSkipped:false,barThickness:40}
+  ]},options:COPTS});
+
+  /* Semua daging */
+  mkChart("cProdSemua",{type:"bar",data:{labels:yrs,datasets:[
+    {label:"Sapi (ton)",   data:yrs.map(function(y){return PROD.sapiTon[y]||0;}),backgroundColor:"#2563ebaa",borderRadius:4,borderSkipped:false},
+    {label:"Babi (ton)",   data:yrs.map(function(y){return PROD.babiTon[y]||0;}),backgroundColor:"#dc2626aa",borderRadius:4,borderSkipped:false},
+    {label:"Kambing (ton)",data:yrs.map(function(y){return PROD.kambingTon[y]||0;}),backgroundColor:"#16a34aaa",borderRadius:4,borderSkipped:false},
+    {label:"Ay.Kampung (ton)",data:yrs.map(function(y){return PROD.ayamBurasTon[y]||0;}),backgroundColor:"#0ea5e9aa",borderRadius:4,borderSkipped:false},
+  ]},options:COPTS});
+
+  /* Pie daging */
+  var pdv=[PROD.sapiTon[lat],PROD.babiTon[lat],PROD.kambingTon[lat],PROD.ayamBurasTon[lat]];
+  var pdl=["Sapi","Babi","Kambing","Ay.Kampung"];
+  var pdc=["#2563eb","#dc2626","#16a34a","#0ea5e9"];
+  var pdtotal=0; for(var i=0;i<pdv.length;i++) pdtotal+=pdv[i]||0;
+  mkChart("cProdPie",{type:"doughnut",data:{labels:pdl,datasets:[{data:pdv,backgroundColor:pdc,borderWidth:3,borderColor:"#fff",hoverOffset:8}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:"52%",plugins:{
+      legend:{position:"bottom",labels:{font:{size:11,family:"Nunito"},padding:8,color:"#475569",boxWidth:12}},
+      tooltip:{callbacks:{label:function(ctx){var p=(ctx.parsed/pdtotal*100).toFixed(1);return " "+fmtNum(ctx.parsed,1)+" ton ("+p+"%)";}}}}}}); 
+
+  /* Telur layer trend */
+  mkChart("cTelurLayer",{type:"line",data:{labels:yrs,datasets:[
+    {label:"Telur Ayam Ras Petelur (ton)",data:yrs.map(function(y){return PROD.telurLayer[y]||0;}),borderColor:"#f59e0b",backgroundColor:"#fef9c344",fill:true,tension:.4,pointRadius:5,pointBackgroundColor:"#f59e0b",pointBorderColor:"#fff",pointBorderWidth:2},
+  ]},options:COPTS});
+
+  /* Semua telur */
+  mkChart("cTelur",{type:"bar",data:{labels:yrs,datasets:[
+    {label:"Ayam Ras Petelur (ton)",data:yrs.map(function(y){return PROD.telurLayer[y]||0;}),backgroundColor:"#f59e0bcc",borderRadius:5,borderSkipped:false},
+    {label:"Itik (ton)",            data:yrs.map(function(y){return PROD.telurItik[y]||0;}),backgroundColor:"#0ea5e9cc",borderRadius:5,borderSkipped:false},
+    {label:"Ayam Kampung (ton)",    data:yrs.map(function(y){return PROD.telurBuras[y]||0;}),backgroundColor:"#16a34acc",borderRadius:5,borderSkipped:false},
+  ]},options:COPTS});
+
+  /* Pie telur */
+  var ptv=[PROD.telurLayer[lat],PROD.telurItik[lat],PROD.telurBuras[lat]];
+  var ptl=["Ayam Ras Petelur","Itik","Ayam Kampung"];
+  var ptc=["#f59e0b","#0ea5e9","#16a34a"];
+  var pttotal=0; for(var i=0;i<ptv.length;i++) pttotal+=ptv[i]||0;
+  mkChart("cTelurPie",{type:"doughnut",data:{labels:ptl,datasets:[{data:ptv,backgroundColor:ptc,borderWidth:3,borderColor:"#fff",hoverOffset:8}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:"52%",plugins:{
+      legend:{position:"bottom",labels:{font:{size:11,family:"Nunito"},padding:10,color:"#475569",boxWidth:12}},
+      tooltip:{callbacks:{label:function(ctx){var p=(ctx.parsed/pttotal*100).toFixed(1);return " "+fmtNum(ctx.parsed)+" ton ("+p+"%)";}}}}}}); 
 
   /* Sapi per kab */
   var ycolors=["#2563eb99","#0ea5e999","#16a34a99","#f59e0b99","#dc262699"];
